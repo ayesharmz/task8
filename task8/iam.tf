@@ -1,5 +1,5 @@
 resource "aws_iam_role" "ecs_task_exec" {
-  name = "ecsTaskExecutionRole-shifa-newIAM"
+  name = "ecsTaskExecutionRole-nagarjuna"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
@@ -20,7 +20,12 @@ resource "aws_iam_role_policy_attachment" "ecs_task_exec_attach" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
-resource "aws_cloudwatch_log_group" "strapi" {
-  name              = "/ecs/strapi"
-  retention_in_days = 7
+resource "aws_iam_role_policy_attachment" "ssm_access" {
+  role       = aws_iam_role.ecs_task_exec.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMReadOnlyAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "s3_read_access" {
+  role       = aws_iam_role.ecs_task_exec.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
 }
