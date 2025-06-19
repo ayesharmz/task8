@@ -9,20 +9,21 @@ resource "aws_ecs_task_definition" "strapi" {
   container_definitions = jsonencode([
     {
       name      = "strapi"
-      image     = "your-dockerhub-username/strapi-app:latest"
+      image     = "your-dockerhub-username/strapi-app:latest"  # <- Replace with your real image
       essential = true
       portMappings = [
         {
           containerPort = 1337
           hostPort      = 1337
+          protocol      = "tcp"
         }
-      ]
+      ],
       logConfiguration = {
-        logDriver = "awslogs"
+        logDriver = "awslogs",
         options = {
           awslogs-group         = "/ecs/strapi"
           awslogs-region        = "us-east-1"
-          awslogs-stream-prefix = "ecs/strapi"
+          awslogs-stream-prefix = "ecs"
         }
       }
     }
