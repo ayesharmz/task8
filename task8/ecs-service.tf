@@ -7,8 +7,8 @@ resource "aws_ecs_service" "strapi" {
   desired_count = 1
 
   network_configuration {
-    subnets         = module.vpc.public_subnets
-    security_groups = [aws_security_group.ecs_sg.id]
+    subnets          = module.vpc.public_subnets
+    security_groups  = [aws_security_group.ecs_sg.id]
     assign_public_ip = true
   }
 
@@ -18,5 +18,5 @@ resource "aws_ecs_service" "strapi" {
     container_port   = 1337
   }
 
-  depends_on = [aws_lb_listener.http]
+  depends_on = [aws_lb_listener.strapi]
 }
